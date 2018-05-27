@@ -1,0 +1,2 @@
+rmi_server.ReceiveScreen$1
+rmi_server.ReceiveScreen

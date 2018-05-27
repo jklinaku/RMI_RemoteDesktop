@@ -3,6 +3,8 @@ package rmi_server;
 import RMI.RemoteDesktopClientInt;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -13,11 +15,14 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.text.html.HTMLDocument;
 import org.w3c.dom.events.MouseEvent;
@@ -31,18 +36,22 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
     RemoteDesktopClientInt c;
     String ccn;
     Image image1 = null;
+    CreateFrame f;
+    ArrayList<JMenuItem> clients = new ArrayList<JMenuItem>();
 
-    public ReceiveScreen(Server s, JPanel p) {
+    public ReceiveScreen(Server s, JPanel p, CreateFrame f) {
         //oin = in;
         server = s;
         cPanel = p;
         // setClient("jon");
+
+        this.f = f;
         start();
 
     }
 
     public void setClient(String name) {
-        ccn=name;
+        ccn = name;
         c = server.clients.get(ccn);
     }
 
@@ -55,23 +64,41 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
         while (continueLoop) {
             try {
                 Set<String> it = server.clients.keySet();
+                if (it.size() != f.subMenu.getItemCount()) {
+                    f.subMenu.removeAll();
+                    for (Iterator<String> iterator = it.iterator(); iterator.hasNext();) {
+                        String next = iterator.next();
+                        JMenuItem jmi = new JMenuItem(next);
+                        clients.add(jmi);
+                        f.subMenu.add(jmi);
+                        jmi.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                                setClient(jmi.getText());
+                                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                            }
+                        });
+
+                    }
+                }
                 //System.out.println(Arrays.toString(it.toArray()));
                 if (c == null) {
                     //Set<String> it = server.clients.keySet();
-                    if(!it.isEmpty()){
+                    if (!it.isEmpty()) {
                         System.out.println(Arrays.toString(it.toArray()));
-                        ccn=(String)it.toArray()[0];
-                        c=server.clients.get(ccn);
-                        
+                        ccn = (String) it.toArray()[0];
+                        c = server.clients.get(ccn);
+
                     }
-                        
-                   
 
                 }
-                try{c.captureScreen();}
-                catch (RemoteException e){
-                   server.deleteClient(ccn, c);
-                c=null;}
+                try {
+                    c.captureScreen();
+                } catch (RemoteException e) {
+                    server.deleteClient(ccn, c);
+                    c = null;
+                }
                 image1 = ImageIO.read(new ByteArrayInputStream(c.captureScreen()));
 
                 image1 = image1.getScaledInstance(cPanel.getWidth(), cPanel.getHeight(), Image.SCALE_FAST);
@@ -94,7 +121,7 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
     @Override
     public void keyPressed(KeyEvent e) {
         try {
-           // System.out.println("halo");
+            // System.out.println("halo");
             c.keyPressed(e);
         } catch (Exception ex) {
         }
@@ -104,11 +131,11 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void keyReleased(KeyEvent e) {
-          try{
-           c.keyReleased(e);
-       }
-       catch(Exception ex){}
-        
+        try {
+            c.keyReleased(e);
+        } catch (Exception ex) {
+        }
+
 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -119,15 +146,23 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            System.out.println("hi");
+            c.mousePressed(e);
+            System.out.println("hi1");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("hi2");
+        }
+//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {
-       try{
-           c.mouseReleased(e);
-       }
-       catch(Exception ex){}
+        try {
+            c.mouseReleased(e);
+        } catch (Exception ex) {
+        }
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -149,7 +184,7 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
     @Override
     public void mouseMoved(java.awt.event.MouseEvent e) {
         try {
-            c.mouseMoved(e,(double)cPanel.getWidth(),(double)cPanel.getHeight());
+            c.mouseMoved(e, (double) cPanel.getWidth(), (double) cPanel.getHeight());
         } catch (Exception ex) {
         }
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

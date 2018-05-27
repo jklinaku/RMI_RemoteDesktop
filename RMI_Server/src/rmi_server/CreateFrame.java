@@ -12,13 +12,16 @@ import javax.swing.JPanel;
 import java.util.zip.*;
 
 import java.io.IOException;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 class CreateFrame extends Thread {
 
     String width = "", height = "";
     private JFrame frame = new JFrame();
     private Server server;
-
+    public JMenu subMenu=null;
     //JDesktopPane represents the main container that will contain all connected clients' screens
     private JDesktopPane desktop = new JDesktopPane();
     //private Socket cSocket = null;
@@ -36,6 +39,13 @@ class CreateFrame extends Thread {
 
     //Draw GUI per each connected client
     public void drawGUI() {
+        JMenuBar mb=new JMenuBar(); 
+          JMenu  menu=new JMenu("Menu"); 
+           subMenu = new JMenu("Klientet");
+          menu.add(subMenu);
+          mb.add(menu);
+          frame.setJMenuBar(mb);
+          
         frame.add(desktop, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -70,7 +80,7 @@ class CreateFrame extends Thread {
 //catch ( Exception e){}
 
         //Start receiving screenshots
-        new ReceiveScreen(server, cPanel);
+        new ReceiveScreen(server, cPanel, this);
         //Start sending events to the client
        // new SendEvents(cSocket, cPanel, width, height);
     }
