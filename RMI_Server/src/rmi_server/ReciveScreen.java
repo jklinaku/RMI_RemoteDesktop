@@ -21,7 +21,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.text.html.HTMLDocument;
@@ -37,7 +39,7 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
     String ccn;
     Image image1 = null;
     CreateFrame f;
-    ArrayList<JMenuItem> clients = new ArrayList<JMenuItem>();
+    ArrayList<JButton> clients = new ArrayList<JButton>();
 
     public ReceiveScreen(Server s, JPanel p, CreateFrame f) {
         //oin = in;
@@ -64,13 +66,13 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
         while (continueLoop) {
             try {
                 Set<String> it = server.clients.keySet();
-                if (it.size() != f.subMenu.getItemCount()) {
-                    f.subMenu.removeAll();
+                if (it.size() != f.mb.getMenuCount()) {
+                    f.mb.removeAll();
                     for (Iterator<String> iterator = it.iterator(); iterator.hasNext();) {
                         String next = iterator.next();
-                        JMenuItem jmi = new JMenuItem(next);
+                        JButton jmi = new JButton(next);
                         clients.add(jmi);
-                        f.subMenu.add(jmi);
+                        f.mb.add(jmi);
                         jmi.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -79,6 +81,7 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
                                 // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                             }
                         });
+                        f.reValidate();
 
                     }
                 }
@@ -94,7 +97,7 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
                 }
                 try {
-                    c.captureScreen();
+                    c.connectionTest();
                 } catch (RemoteException e) {
                     server.deleteClient(ccn, c);
                     c = null;
@@ -166,8 +169,13 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {
+       int button = e.getButton();
+		int xButton = 16;
+		if(button==3){
+			xButton = 4;
+		}
         try {
-            c.mouseReleased(e);
+            c.mouseReleased(xButton);
         } catch (Exception ex) {
         }
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

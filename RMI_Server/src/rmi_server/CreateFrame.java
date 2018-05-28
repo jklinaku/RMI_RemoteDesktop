@@ -21,7 +21,7 @@ class CreateFrame extends Thread {
     String width = "", height = "";
     private JFrame frame = new JFrame();
     private Server server;
-    public JMenu subMenu=null;
+    JMenuBar mb;
     //JDesktopPane represents the main container that will contain all connected clients' screens
     private JDesktopPane desktop = new JDesktopPane();
     //private Socket cSocket = null;
@@ -39,11 +39,9 @@ class CreateFrame extends Thread {
 
     //Draw GUI per each connected client
     public void drawGUI() {
-        JMenuBar mb=new JMenuBar(); 
-          JMenu  menu=new JMenu("Menu"); 
-           subMenu = new JMenu("Klientet");
-          menu.add(subMenu);
-          mb.add(menu);
+        mb=new JMenuBar(); 
+          
+         
           frame.setJMenuBar(mb);
           
         frame.add(desktop, BorderLayout.CENTER);
@@ -67,8 +65,13 @@ class CreateFrame extends Thread {
         //This allows to handle KeyListener events
         cPanel.setFocusable(true);
         interFrame.setVisible(true);
+        
 
     }
+    public void reValidate(){
+        frame.validate();
+    }
+    
 
     public void run() {
         //Used to read screenshots

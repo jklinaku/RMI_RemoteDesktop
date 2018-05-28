@@ -70,8 +70,8 @@ public class Client extends UnicastRemoteObject implements RemoteDesktopClientIn
     @Override
     public void mouseMoved(MouseEvent e,double w,double h) throws RemoteException {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        double xScale = w /rect.getSize().getWidth();
-        double yScale = h /rect.getSize().getHeight();
+        double xScale = rect.getSize().getWidth() /w;
+        double yScale = rect.getSize().getHeight() /h;
         robot.mouseMove((int) (e.getX() * xScale), (int) (e.getY() * yScale));
 //System.out.println("ajbwdkjawndkjawdnkjawd");
     }
@@ -84,8 +84,8 @@ public class Client extends UnicastRemoteObject implements RemoteDesktopClientIn
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) throws RemoteException {
-        robot.mouseRelease(e.getButton());
+    public void mouseReleased(int e) throws RemoteException {
+        robot.mouseRelease(e);
       //  System.out.println("ajbwdkjawndkjawdnkjawd");
 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -99,9 +99,14 @@ public class Client extends UnicastRemoteObject implements RemoteDesktopClientIn
 
     @Override
     public void keyReleased(KeyEvent e) throws RemoteException {
-        robot.keyPress(e.getKeyCode());
+        robot.keyRelease(e.getKeyCode());
        // System.out.println("ajbwdkjawndkjawdnkjawd");
 
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void connectionTest() throws RemoteException {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
