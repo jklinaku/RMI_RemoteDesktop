@@ -28,7 +28,7 @@ public interface RemoteDesktopClientInt extends Remote {
 
     public void mouseMoved(MouseEvent e,double w,double h) throws RemoteException;
 
-    public void mousePressed(MouseEvent e) throws RemoteException;
+    public void mousePressed(int e) throws RemoteException;
 
     public void mouseReleased(MouseEvent e) throws RemoteException;
 

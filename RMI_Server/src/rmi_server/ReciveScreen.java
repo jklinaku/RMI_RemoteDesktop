@@ -146,9 +146,16 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
+         int button = e.getButton();
+		int xButton = 16;
+		if(button==3){
+			xButton = 4;
+		}
         try {
+            
+		
             System.out.println("hi");
-            c.mousePressed(e);
+            c.mousePressed(xButton);
             System.out.println("hi1");
         } catch (Exception ex) {
             ex.printStackTrace();

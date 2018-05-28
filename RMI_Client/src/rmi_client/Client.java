@@ -77,9 +77,9 @@ public class Client extends UnicastRemoteObject implements RemoteDesktopClientIn
     }
 
     @Override
-    public void mousePressed(MouseEvent e) throws RemoteException {
+    public void mousePressed(int e) throws RemoteException {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        robot.mousePress(e.getButton());
+        robot.mousePress(e);
        // System.out.println("ajbwdkjawndkjawdnkjawd");
     }
 
