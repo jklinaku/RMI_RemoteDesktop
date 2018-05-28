@@ -5,7 +5,6 @@
  */
 package rmi_client;
 
-import RMI.RemoteDesktopClientInt;
 import RMI.RemoteDesktopServerInt;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -42,16 +41,18 @@ public class RMI_Client {
         String height = "" + dim.getHeight();
         Rectangle rect = new Rectangle(dim);
         Robot robot = new Robot(gDev);
-        Client client = new Client(robot, rect, server,"jonau5");
-        System.out.println(server.registerClient("hello",  client, client.getName()));
-       // Thread.sleep(1000);
-        Runtime.getRuntime().addShutdownHook( new hook(server,client));
-        Scanner s=new Scanner(System.in);
-        while(true){
-            if(s.nextLine().trim().toLowerCase().equals("x"))
+
+        Client client = new Client(robot, rect, server, "jonau5");
+        System.out.println(server.registerClient("hello", client, client.getName()));
+        // Thread.sleep(1000);
+        Runtime.getRuntime().addShutdownHook(new hook(server, client));
+        Scanner s = new Scanner(System.in);
+        while (true) {
+            if (s.nextLine().trim().toLowerCase().equals("x")) {
                 System.exit(0);
+            }
         }
-        
+
     }
 
 }

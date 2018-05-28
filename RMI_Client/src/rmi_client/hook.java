@@ -25,7 +25,7 @@ public class hook extends Thread {
     @Override
     public void run() {
         try {
-         System.out.println(server.deleteClient(client.getName(), client));
+            System.out.println(server.deleteClient(client.getName(), client));
         } catch (Exception e) {
         }
     }

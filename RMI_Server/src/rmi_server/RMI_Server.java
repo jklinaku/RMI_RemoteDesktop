@@ -30,16 +30,15 @@ public class RMI_Server {
 //            System.setSecurityManager(new SecurityManager());
 //        }
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-         Rectangle rect = new Rectangle(dim);
+        Rectangle rect = new Rectangle(dim);
         //Rectangle rect = new Rectangle();
         String password = "hello";
-        Server server = new Server( password);
+        Server server = new Server(password);
         Registry myReg = LocateRegistry.createRegistry(4099);
-        myReg.bind("server", (RemoteDesktopServerInt)server);
+        myReg.bind("server", (RemoteDesktopServerInt) server);
         JDesktopPane desktop = new JDesktopPane();
         JInternalFrame interFrame = new JInternalFrame("Server Screen", true, true, true);
         new CreateFrame(server, "50", "50");
-        
 
     }
 

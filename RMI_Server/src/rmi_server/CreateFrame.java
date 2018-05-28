@@ -1,20 +1,12 @@
 package rmi_server;
 
-import RMI.RemoteDesktopClientInt;
 import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
-import java.io.InputStream;
-import java.net.Socket;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-import java.util.zip.*;
-
-import java.io.IOException;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 class CreateFrame extends Thread {
 
@@ -33,17 +25,16 @@ class CreateFrame extends Thread {
 
         this.width = width;
         this.height = height;
-       // this.cSocket = cSocket;
+        // this.cSocket = cSocket;
         start();
     }
 
     //Draw GUI per each connected client
     public void drawGUI() {
-        mb=new JMenuBar(); 
-          
-         
-          frame.setJMenuBar(mb);
-          
+        mb = new JMenuBar();
+
+        frame.setJMenuBar(mb);
+
         frame.add(desktop, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -65,17 +56,16 @@ class CreateFrame extends Thread {
         //This allows to handle KeyListener events
         cPanel.setFocusable(true);
         interFrame.setVisible(true);
-        
 
     }
-    public void reValidate(){
+
+    public void reValidate() {
         frame.validate();
     }
-    
 
     public void run() {
         //Used to read screenshots
-       
+
         //start drawing GUI
         drawGUI();
 //try{
@@ -85,6 +75,6 @@ class CreateFrame extends Thread {
         //Start receiving screenshots
         new ReceiveScreen(server, cPanel, this);
         //Start sending events to the client
-       // new SendEvents(cSocket, cPanel, width, height);
+        // new SendEvents(cSocket, cPanel, width, height);
     }
 }

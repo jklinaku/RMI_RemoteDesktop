@@ -7,11 +7,8 @@ package rmi_server;
 
 import RMI.RemoteDesktopClientInt;
 import RMI.RemoteDesktopServerInt;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,15 +17,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Server extends UnicastRemoteObject implements RemoteDesktopServerInt {
 
-   // Robot robot;
-   // Rectangle rect;
-    ConcurrentHashMap<String, RemoteDesktopClientInt> clients=new ConcurrentHashMap<String,RemoteDesktopClientInt>();
+    // Robot robot;
+    // Rectangle rect;
+    ConcurrentHashMap<String, RemoteDesktopClientInt> clients = new ConcurrentHashMap<String, RemoteDesktopClientInt>();
     String password;
 
-    public Server( String password) throws RemoteException {
+    public Server(String password) throws RemoteException {
         //this.robot = robot;
         //this.rect = rect;
-       // this.server = server;
+        // this.server = server;
         this.password = password;
 
     }
@@ -37,29 +34,25 @@ public class Server extends UnicastRemoteObject implements RemoteDesktopServerIn
     public boolean registerClient(String password, RemoteDesktopClientInt client, String name) throws RemoteException {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //return false;
-        if(this.password.equals(password)){
-             if(clients.get(name)==null){
-                 clients.put(name, client);
-                 return true;
-             }
-             else{
-                 //duhet quar error tek klienti!
-             }
+        if (this.password.equals(password)) {
+            if (clients.get(name) == null) {
+                clients.put(name, client);
+                return true;
+            } else {
+                //duhet quar error tek klienti!
+            }
         }
         return false;
     }
 
     @Override
-    public boolean deleteClient(String name,RemoteDesktopClientInt client) throws RemoteException {
+    public boolean deleteClient(String name, RemoteDesktopClientInt client) throws RemoteException {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       
-            System.out.println(clients.remove(name));
-            return true;
-        
-       
-    }
 
-    
+        System.out.println(clients.remove(name));
+        return true;
+
+    }
 
 //    @Override
 //    public double getPanelSize() {
@@ -70,12 +63,4 @@ public class Server extends UnicastRemoteObject implements RemoteDesktopServerIn
 //    public void setPanelSize(Dimension dim){
 //        rect.setSize(dim);
 //    }
-   
-
-   
-
-   
-
-    
-
 }

@@ -9,27 +9,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
-import java.rmi.UnmarshalException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.text.html.HTMLDocument;
-import org.w3c.dom.events.MouseEvent;
 
-class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseMotionListener {
+class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
     private ObjectInputStream cObjectInputStream = null;
     private JPanel cPanel = null;
@@ -149,19 +142,19 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-         int button = e.getButton();
-		int xButton = 16;
-		if(button==3){
-			xButton = 4;
-		}
+        System.out.println("just got pressed");
+        int button = e.getButton();
+        int xButton = 16;
+        if (button == 3) {
+            xButton = 4;
+        }
         try {
-            
-		
+
             System.out.println("hi");
             c.mousePressed(xButton);
             System.out.println("hi1");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             System.out.println("hi2");
         }
 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -169,11 +162,12 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {
-       int button = e.getButton();
-		int xButton = 16;
-		if(button==3){
-			xButton = 4;
-		}
+        System.out.println("just got released");
+        int button = e.getButton();
+        int xButton = 16;
+        if (button == 3) {
+            xButton = 4;
+        }
         try {
             c.mouseReleased(xButton);
         } catch (Exception ex) {
@@ -193,6 +187,11 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mouseDragged(java.awt.event.MouseEvent e) {
+        System.out.println("just got dragged");
+        try {
+            c.mouseMoved(e, (double) cPanel.getWidth(), (double) cPanel.getHeight());
+        } catch (Exception ex) {
+        }
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -203,5 +202,15 @@ class ReceiveScreen extends Thread implements KeyListener, MouseListener, MouseM
         } catch (Exception ex) {
         }
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        try {
+            c.mouseWheelMoved(e);
+        } catch (Exception ex) {
+
+        }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

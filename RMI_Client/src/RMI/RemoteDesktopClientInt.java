@@ -5,10 +5,9 @@
  */
 package RMI;
 
-import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -18,15 +17,11 @@ import java.rmi.RemoteException;
  */
 public interface RemoteDesktopClientInt extends Remote {
 
-
-
     public byte[] captureScreen() throws RemoteException;
 
-   // public void sendEvent(RemoteDesktopInt client) throws RemoteException;
-
+    // public void sendEvent(RemoteDesktopInt client) throws RemoteException;
     //public Dimension getPanelSize();
-
-    public void mouseMoved(MouseEvent e,double w,double h) throws RemoteException;
+    public void mouseMoved(MouseEvent e, double w, double h) throws RemoteException;
 
     public void mousePressed(int e) throws RemoteException;
 
@@ -35,6 +30,9 @@ public interface RemoteDesktopClientInt extends Remote {
     public void keyPressed(KeyEvent e) throws RemoteException;
 
     public void keyReleased(KeyEvent e) throws RemoteException;
+
     public void connectionTest() throws RemoteException;
+
+    public void mouseWheelMoved(MouseWheelEvent e) throws RemoteException;
 
 }
