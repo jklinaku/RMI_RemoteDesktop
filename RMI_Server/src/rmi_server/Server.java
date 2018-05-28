@@ -49,7 +49,7 @@ public class Server extends UnicastRemoteObject implements RemoteDesktopServerIn
     public boolean deleteClient(String name, RemoteDesktopClientInt client) throws RemoteException {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
-        System.out.println(clients.remove(name));
+        clients.remove(name);
         return true;
 
     }
